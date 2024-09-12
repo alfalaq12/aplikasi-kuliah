@@ -1,0 +1,27 @@
+<template>
+    <div class="page" style="background: url('img/background.jpg'); background-size: cover;">
+        <div class="navbar" style="background-color: #0A4940;">
+            <div class="navbar-inner">
+                <div class="title teks-putih">Data Karyawan</div>
+                <div class="right">
+                    <a href="#" class="link back"><i class="icon f7-icons color-white">multiply</i></a>
+                </div>
+            </div>
+        </div>
+        <div class="page-content">
+            <div class="row" id="blokdata"></div><br/><br/><br/><br/><br/>
+        </div>
+    </div>
+</template>
+<script>
+    export default function (props, ctx){
+        let $on = ctx.$on;
+        $on('pageInit', () => {
+            datakaryawan();
+        })
+        return $render;
+    }
+</script>
+
+
+

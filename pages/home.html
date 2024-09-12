@@ -1,0 +1,229 @@
+<template>
+    <div class="page page-home" style="background: url('img/background.jpg'); background-size: cover;">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="left">
+                    <a href="#" class="link panel-open" data-panel="left"><i class="icon f7-icons teks-putih">bars</i></a>
+                </div>
+                <div class="right">
+                    <a href="#" class="link">
+                        <i class="icon f7-icons color-white">search</i>
+                    </a>
+                    <a href="#" class="link">
+                        <i class="icon f7-icons color-white">barcode_viewfinder</i>
+                    </a>
+                    <a href="#" class="link"><i class="icon f7-icons color-white">bell</i></a>
+                    <a href="#" class="link popover-open" data-popover="#popover-menu">
+                        <i class="icon f7-icons color-white">ellipsis_vertical</i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-left panel-floating panel-resizable panel-init">
+            <div class="page">
+                <div class="page-content">
+                    <div class="grid grid-cols-2 grid-gap kiri3 kanan3 lebar94" style="margin-top: 10px;">
+                        <a href="/kantor/" class="rata-tengah panel-close teks-hitam">
+                            <img src="img/clipboard.png" style="width: 90%;" /><br/>Data Kantor
+                        </a>
+                        <a href="/karyawan/" class="rata-tengah panel-close teks-hitam">
+                            <img src="img/clipboard.png" style="width: 90%;" /><br/>Data Karyawan
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="toolbar tabbar tabbar-icons toolbar-bottom" style="height: 65px; background-color: transparent;">
+            <div class="toolbar-inner">
+                <a href="#tab-beranda" class="tab-link tab-link-active">
+                    <i class="icon f7-icons">house</i>
+                    <span class="tabbar-label teks-putih">Beranda</span>
+                </a>
+                <a href="#tab-transaksi" class="tab-link">
+                    <i class="icon f7-icons">money_dollar<span class="badge color-red">5</span></i>
+                    <span class="tabbar-label teks-putih">Transaksi</span>
+                </a>
+                <a href="#tab-riwayat" class="tab-link">
+                    <i class="icon f7-icons">calendar</i>
+                    <span class="tabbar-label teks-putih">Riwayat</span>
+                </a>
+                <a href="#tab-akun" class="tab-link">
+                    <i class="icon f7-icons">device_tablet_portrait</i>
+                    <span class="tabbar-label teks-putih">Akun</span>
+                </a>
+            </div>
+        </div>
+        <div class="tabs">
+            <div id="tab-beranda" class="page-content tab tab-active">
+                <swiper-container class="demo-swiper-multiple kiri2 kanan2 lebar96" space-between="10" slides-per-view="auto">
+                    <swiper-slide class="radius20" style="width: 40%; background: #b71c1c; border-width: 0px; color: white;">
+                        <p class="rata-tengah font14">
+                            Jam Transaksi<br/><font class="font25"><b>?????</b></font>
+                        </p>
+                    </swiper-slide>
+                    <swiper-slide class="radius20" style="width: 56%; background: #880e4f; border-width: 0px; color: white;">
+                        <p class="rata-tengah font14">
+                            Jumlah Transaksi<br/><font class="font25"><b>?????</b></font>
+                        </p>
+                    </swiper-slide>
+                    <swiper-slide class="radius20" style="width: 96%; background: #006064; border-width: 0px; color: white;">
+                        <p class="rata-tengah font14">
+                            Barang Banyak Terjual<br/><font class="font25"><b>?????</b></font>
+                        </p>
+                    </swiper-slide>
+                    <swiper-slide class="radius20" style="width: 48%; background: #ff6f00; border-width: 0px; color: white;">
+                        <p class="rata-tengah font14">
+                            Nominal Transaksi<br/><font class="font25"><b>?????</b></font>
+                        </p>
+                    </swiper-slide>
+                    <swiper-slide class="radius20" style="width: 48%; background: #01579b; border-width: 0px; color: white;">
+                        <p class="rata-tengah font14">
+                            Jumlah Barang<br/><font class="font25"><b>?????</b></font>
+                        </p>
+                    </swiper-slide>
+                </swiper-container>
+                <div class="card kiri2 kanan2 lebar96" style="margin-top: -25px;">
+                    <div class="card-content card-content-padding">
+                        <div class="list no-chevron">
+                            <ul>
+                                <li>
+                                    <a class="item-link item-content">
+                                        <div class="item-media"><i class="icon f7-icons">calendar</i></div>
+                                        <div class="item-inner"><div class="item-title" id="bloktglsekarang" style="font-size: 25px;">????</div></div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="item-link item-content">
+                                        <div class="item-media"><i class="icon f7-icons">clock</i></div>
+                                        <div class="item-inner"><div class="item-title" id="blokjamsekarang" style="font-size: 25px;">????</div></div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="item-link item-content">
+                                        <div class="item-media"><i class="icon f7-icons">house</i></div>
+                                        <div class="item-inner"><div class="item-title">????</div></div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="item-link item-content">
+                                        <div class="item-media"><i class="icon f7-icons">printer</i></div>
+                                        <div class="item-inner">
+                                            <div class="item-title" id="blokprinter" style="font-size: 25px;">????</div>
+                                            <div class="item-after"><i class="icon f7-icons" @click="${()=>keviewperangkat()}">gear_alt</i></div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card kiri2 kanan2 lebar96" style="margin-top: -5px;">
+                    <div class="card-content card-content-padding rata-tengah">
+                        <h1>Grafik</h1>
+                    </div>
+                </div>
+            </div>
+            <div id="tab-transaksi" class="page-content tab">
+                
+            </div>
+            <div id="tab-riwayat" class="page-content tab">
+                <div class="card skeleton-text kiri2 kanan2 lebar96 skeleton-effect-wave">
+                    <div class="card-header">Card Header</div>
+                    <div class="card-content card-content-padding">
+                        Percobaan Teks untuk div Skeleton Ghost. Percobaan Teks untuk div Skeleton Ghost. Percobaan Teks untuk div Skeleton Ghost. Percobaan Teks untuk div Skeleton Ghost. Percobaan Teks untuk div Skeleton Ghost
+                    </div>
+                    <div class="card-footer">Card Footer</div>
+                </div>
+            </div>
+            <div id="tab-akun" class="page-content tab">
+                <div class="card kiri2 kanan2 lebar96">
+                    <div class="card-content card-content-padding rata-tengah">
+                        <div class="grid grid-cols-2 grid-gap">
+                            <div id="blokseri"></div>
+                            <div class="font17" id="blokprofil" style="text-align: left;"></div>
+                          </div>
+                        <!-- <div class="list list-strong-ios list-dividers-ios inset-ios" style="margin: 0px;">
+                            <ul>
+                                <li class="item-content item-input item-input-outline">
+                                    <div class="item-media"><i class="icon f7-icons">qrcode</i></div>
+                                    <div class="item-inner">
+                                        <div class="item-input-wrap">
+                                            <input type="text" id="profil_id" readonly />
+                                            <span class="input-clear-button"></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="item-content item-input item-input-outline">
+                                    <div class="item-media"><i class="icon f7-icons">person_alt</i></div>
+                                    <div class="item-inner">
+                                        <div class="item-input-wrap">
+                                            <input type="text" id="profil_nama" readonly />
+                                            <span class="input-clear-button"></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="item-content item-input item-input-outline">
+                                    <div class="item-media"><i class="icon f7-icons">tag</i></div>
+                                    <div class="item-inner">
+                                        <div class="item-input-wrap">
+                                            <input type="text" id="profil_user" readonly />
+                                            <span class="input-clear-button"></span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="login-screen" id="hal-login">
+            <div class="view">
+                <div class="page login-screen-page" style="background: url('img/login.png'); background-size: cover;">
+                    <div class="page-content login-screen-content" style="background: transparent;">
+                        <div class="login-screen-title">Login Aplikasi</div>
+                        <form>
+                            <div class="list list-strong-ios list-dividers-ios inset-ios" style="margin-left: 12%; width: 85%; margin-right: 3%;">
+                                <ul>
+                                    <li class="item-content item-input item-input-outline">
+                                        <div class="item-media"><i class="icon f7-icons">person_alt</i></div>
+                                        <div class="item-inner">
+                                            <div class="item-title item-label">Username</div>
+                                            <div class="item-input-wrap">
+                                                <input type="text" id="txtusr" autocomplete="false" placeholder="Username Anda" />
+                                                <span class="input-clear-button"></span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="item-content item-input item-input-outline">
+                                        <div class="item-media"><i class="icon f7-icons">number</i></div>
+                                        <div class="item-inner">
+                                            <div class="item-title item-label">Password</div>
+                                            <div class="item-input-wrap">
+                                                <input type="password" id="txtpss" autocomplete="false" placeholder="Password Anda" />
+                                                <span class="input-clear-button"></span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="list">
+                                <ul>
+                                    <li>
+                                        <a href="#" class="list-button font25" @click="${()=>login()}">Masuk Aplikasi</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    export default function (props, ctx){
+        return $render;
+    }
+</script>
+

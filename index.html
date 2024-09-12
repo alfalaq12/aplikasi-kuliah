@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="theme-color" content="#fff">
+        <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data:">
+        <title>Praktek Mobile Programming</title>
+        <link rel="stylesheet" href="core/framework7-bundle.min.css">
+        <link rel="stylesheet" href="css/app.css">
+        <link rel="stylesheet" href="css/custom.css">
+        <link rel="apple-touch-icon" href="img/f7-icon-square.png">
+        <link rel="icon" href="img/f7-icon.png">
+    </head>
+    <body>
+        <div id="app">
+            <div class="view view-main view-init safe-areas" data-master-detail-breakpoint="768" data-url="/"></div>
+        </div>
+        <script src="core/framework7-bundle.min.js"></script>
+        <script src="js/routes.js"></script>
+        <script src="js/store.js"></script>
+        <script src="js/app.js"></script>
+        <script src="js/jquery-3.6.1.min.js"></script>
+        <script src="js/jquery.qrcode.js"></script>
+        <script src="js/qrcode.js"></script>
+        <script src="cordova.js"></script>
+        <script>
+            if(sessionStorage.username == undefined || sessionStorage.username == ""){
+                app.loginScreen.open("#hal-login");
+            }else{
+                ceklogin();
+            }
+
+
+            $('#blokseri').qrcode({
+                render: 'canvas',
+                text: "1234567890",
+                width: 150,
+                height: 150,
+                mode: 1,
+                label: "Mobile"
+            });
+
+            document.addEventListener('deviceready', onDeviceReady, false);
+            function onDeviceReady() {
+                
+            }
+
+            function tglsekarang(){
+                let x = new Date();
+                var hr, tgl, bln, thn;
+                hr = terjemahanhari[x.getDay()];
+                tgl = x.getDate() <= 9 ? `0${x.getDate()}` : x.getDate();
+                bln = terjemahanbulan[x.getMonth() + 1];
+                thn = x.getFullYear();
+                return `${hr}, ${tgl} ${bln} ${thn}`;
+            }
+
+            function jamsekarang(){
+                var x = new Date();
+                var jm, mn, dt;
+                jm = x.getHours() <= 9 ? `0${x.getHours()}` : x.getHours();
+                mn = x.getMinutes() <= 9 ? `0${x.getMinutes()}` : x.getMinutes();
+                dt = x.getSeconds() <= 9 ? `0${x.getSeconds()}` : x.getSeconds();
+                return `${jm}:${mn}:${dt}`;
+            }
+
+            setInterval(function(){
+                $("#bloktglsekarang").html(tglsekarang());
+                $("#blokjamsekarang").html(jamsekarang());
+            }, 1000);
+
+            function keviewperangkat(){
+                app.views.main.router.navigate("/perangkat/");
+            }
+
+            function datakantor(){
+                app.dialog.progress("Menyiapkan Data...");
+                $.getJSON("http://localhost:8000/api/kantor", function(result){
+                    app.dialog.close();
+                    if(result.length > 0){
+                        let dt = "";
+                        $.each(result, function(i, kolom){
+                            let kota = kolom.city;
+                            let alamat = kolom.addressLine1;
+                            dt += `
+                                <div class="card">
+                                    <div class="card-content card-content-padding">
+                                        <b style="font-size: 16px;">${kota}</b><br>
+                                        ${alamat}
+                                    </div>
+                                </div>
+                            `;
+                        })
+                        $("#blokdata").html(dt);
+                    }else{
+                        app.dialog.alert("Data Kosong","Info");
+                    }
+                })
+            }
+
+            function datakaryawan(){
+                app.dialog.progress("Menyiapkan Data...");
+                $.ajax({
+                    url: "http://localhost:8000/api/karyawan",
+                    method: "POST",
+                    data: {usr: atob(sessionStorage.username), pss: atob(sessionStorage.password)},
+                    cache: "false",
+                    timeout: 30000,
+                    success: function(x){
+                        app.dialog.close();
+                        let dt = JSON.parse(x);
+                        if(dt.kode == "1"){
+                            let ax = "";
+                            for(hx of dt.data){
+                                let nama1 = hx.firstName;
+                                let nama2 = hx.lastName;
+                                let email = hx.email;
+                                ax += `
+                                <div class="card">
+                                    <div class="card-content card-content-padding">
+                                        <b style="font-size: 16px;">${nama1} ${nama2}</b><br>
+                                        ${email}
+                                    </div>
+                                </div>`;
+                            }
+                            $("#blokdata").html(ax);
+                        }else{
+                            app.dialog.alert(`${dt.pesan}`,"Error");
+                        }
+                    },
+                    error: function(){
+                        app.dialog.close();
+                        app.dialog.alert("Koneksi Ke Server Terputus", "Error");
+                    }
+                });
+            }
+
+            function login(){
+                let username = $("#txtusr").val();
+                let password = $("#txtpss").val();
+                if(username == "" || password == ""){
+                    app.dialog.alert("Ada Isian Yang Masih Kosong","Error");
+                    return;
+                }
+                app.dialog.preloader("Cek Akun...");
+                $.ajax({
+                    url: "http://localhost:8000/api/login",
+                    method: "POST",
+                    data: {usr: username, pss: password},
+                    cache: "false",
+                    timeout: 30000,
+                    success: function(x){
+                        app.dialog.close();
+                        let dt = JSON.parse(x);
+                        if(dt.kode == "1"){
+                            app.loginScreen.close();
+                            sessionStorage.setItem("username", btoa(username));
+                            sessionStorage.setItem("password", btoa(password));
+                        }else{
+                            app.dialog.alert(`${dt.pesan}`,"Error");
+                        }
+                    },
+                    error: function(){
+                        app.dialog.close();
+                        app.dialog.alert("Koneksi Ke Server Terputus", "Error");
+                    }
+                });
+            }
+
+            function ceklogin(){
+                let username = atob(sessionStorage.username);
+                let password = atob(sessionStorage.password);
+                $.ajax({
+                    url: "http://localhost:8000/api/login",
+                    method: "POST",
+                    data: {usr: username, pss: password},
+                    cache: "false",
+                    timeout: 30000,
+                    success: function(x){
+                        let dt = JSON.parse(x);
+                        if(dt.kode == "1"){
+                            app.loginScreen.close();
+                        }else{
+                            sessionStorage.username = "";
+                            sessionStorage.password = "";
+                            $("#txtusr").val("");
+                            $("#txtpss").val("");
+                            app.loginScreen.open("#hal-login");
+                            app.dialog.alert(`${dt.pesan}`,"Error");
+                        }
+                    },
+                    error: function(){
+                        app.dialog.close();
+                        app.dialog.alert("Koneksi Ke Server Terputus", "Error");
+                    }
+                });
+            }
+
+
+
+            
+        </script>
+    </body>
+</html>
+
